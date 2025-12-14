@@ -1,24 +1,51 @@
+/* Scoped design system for the injected tooltip */
 #unpack-tooltip {
+  /* Colors */
+    --upk-primary: #4F46E5;
+    --upk-primary-hover: #4338CA;
+    --upk-bg-surface: #FFFFFF;
+    --upk-text-main: #1F2937;
+    --upk-text-muted: #4B5563;
+    --upk-border: #E5E7EB;
+    --upk-error: #DC2626;
+  
+    /* Reset basics for this container and its children */
+    all: initial;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   position: absolute;
   z-index: 2147483647;
-  max-width: 400px;
-  min-width: 280px;
-  background: #ffffff;
+    /* Max z-index */
+    width: 380px;
+    max-width: 90vw;
+    background: var(--upk-bg-surface);
   border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    /* Subtle border */
   opacity: 0;
   visibility: hidden;
-  transform: translateY(8px);
-  transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+  transform: translateY(8px) scale(0.98);
+    transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+      visibility 0.2s;
+  
+    /* Ensure text styles */
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--upk-text-main);
+    text-align: left;
+  }
+  
+  /* Apply box-sizing to all children */
+  #unpack-tooltip * {
+    box-sizing: border-box;
 }
 
 #unpack-tooltip.unpack-visible {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 .unpack-header {
@@ -26,70 +53,97 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--upk-border);
 }
 
 .unpack-logo {
-  font-weight: 600;
+  font-weight: 700;
   color: #111827;
+  font-size: 14px;
+    letter-spacing: -0.01em;
 }
 
 .unpack-close {
-  background: none;
+  background: transparent;
   border: none;
   font-size: 20px;
-  color: #6b7280;
+  color: #9CA3AF;
   cursor: pointer;
-  padding: 0;
+  padding: 4px;
   line-height: 1;
+  border-radius: 4px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
 }
 
 .unpack-close:hover {
-  color: #111827;
+  color: var(--upk-text-main);
+    background: #F3F4F6;
 }
 
 .unpack-content {
   padding: 16px;
-  max-height: 300px;
+  max-height: 400px;
   overflow-y: auto;
 }
 
+/* Loading State */
 .unpack-loading {
   display: flex;
   align-items: center;
   gap: 12px;
-  color: #6b7280;
+  color: var(--upk-text-muted);
+    font-weight: 500;
 }
 
 .unpack-spinner {
   width: 20px;
   height: 20px;
-  border: 2px solid #e5e7eb;
-  border-top-color: #3b82f6;
+  border: 2px solid #E5E7EB;
+    border-top-color: var(--upk-primary);
   border-radius: 50%;
   animation: unpack-spin 0.8s linear infinite;
+  flex-shrink: 0;
 }
 
 @keyframes unpack-spin {
   to {
-    transform: rotate(360deg);
-  }
+      transform: rotate(360deg);
+    }
 }
 
+/* Result Text */
 .unpack-result {
-  color: #111827;
+  color: var(--upk-text-main);
   white-space: pre-wrap;
+  font-size: 15px;
+    /* Slightly larger for readability */
+    line-height: 1.6;
 }
 
 .unpack-error {
-  color: #dc2626;
+  color: var(--upk-error);
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 13px;
 }
 
+/* Footer & Buttons */
 .unpack-footer {
   display: flex;
   gap: 8px;
   padding: 12px 16px;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--upk-border);
+    background: #F9FAFB;
+    /* Slight contrast for footer */
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
 }
 
 .unpack-footer button {
@@ -97,27 +151,37 @@
   padding: 8px 12px;
   border-radius: 6px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.15s;
+  transition: all 0.2s ease;
+    font-family: inherit;
+    border: none;
 }
 
 .unpack-copy {
-  background: #3b82f6;
+  background: var(--upk-primary);
   color: white;
-  border: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .unpack-copy:hover {
-  background: #2563eb;
+  background: var(--upk-primary-hover);
+    transform: translateY(-1px);
+  }
+  
+  .unpack-copy:active {
+    transform: translateY(0);
 }
 
 .unpack-toggle {
-  background: #f3f4f6;
-  color: #374151;
-  border: 1px solid #d1d5db;
+  background: #FFFFFF;
+    color: var(--upk-text-main);
+    border: 1px solid var(--upk-border) !important;
+    /* Force border */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .unpack-toggle:hover {
-  background: #e5e7eb;
+  background: #F3F4F6;
+    border-color: #D1D5DB !important;
 }
