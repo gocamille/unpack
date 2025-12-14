@@ -79,6 +79,33 @@
     letter-spacing: -0.01em;
 }
 
+.unpack-actions {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.unpack-font-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--upk-radius);
+  border: 1px solid var(--upk-border);
+  background: var(--upk-background);
+  color: var(--upk-foreground);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0;
+  font-family: inherit;
+}
+
+.unpack-font-btn:hover {
+  background: var(--upk-muted);
+}
 .unpack-close {
   background: transparent;
   border: none;

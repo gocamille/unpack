@@ -10,7 +10,12 @@ function createTooltip() {
   tooltip.innerHTML = `
     <div class="unpack-header">
       <span class="unpack-logo">📦 Unpack</span>
-      <button class="unpack-close" aria-label="Close">×</button>
+      <div class="unpack-actions" style="display: flex; gap: 4px; align-items: center;">
+        <button class="unpack-font-btn" data-action="dec" aria-label="Decrease font">A-</button>
+        <button class="unpack-font-btn" data-action="inc" aria-label="Increase font">A+</button>
+        <div style="width: 1px; height: 16px; background: #e5e7eb; margin: 0 4px;"></div>
+        <button class="unpack-close" aria-label="Close">×</button>
+      </div>
     </div>
     <div class="unpack-content">
       <div class="unpack-loading" style="display: none;">
@@ -33,6 +38,14 @@ function createTooltip() {
   tooltip.querySelector('.unpack-copy').addEventListener('click', copyToClipboard);
   tooltip.querySelector('.unpack-toggle').addEventListener('click', toggleVersion);
 
+  // Font listeners
+  tooltip.querySelectorAll('.unpack-font-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const isInc = e.target.dataset.action === 'inc';
+      adjustTooltipFont(isInc ? 1 : -1);
+    });
+  });
+
   // Close on click outside
   document.addEventListener('click', (e) => {
     if (tooltip && !tooltip.contains(e.target)) {
@@ -46,6 +59,18 @@ function createTooltip() {
   });
 
   return tooltip;
+}
+
+let tooltipFontSize = 15;
+
+function adjustTooltipFont(delta) {
+  if (!tooltip) return;
+  const newSize = tooltipFontSize + delta;
+  if (newSize >= 12 && newSize <= 28) {
+    tooltipFontSize = newSize;
+    const resultEl = tooltip.querySelector('.unpack-result');
+    if (resultEl) resultEl.style.setProperty('font-size', `${tooltipFontSize}px`, 'important');
+  }
 }
 
 function positionTooltip() {
@@ -101,6 +126,8 @@ function showResult(original, simplified) {
   const resultEl = tip.querySelector('.unpack-result');
   resultEl.textContent = simplified;
   resultEl.style.display = 'block';
+  // Ensure font size is applied
+  resultEl.style.setProperty('font-size', `${tooltipFontSize}px`, 'important');
 
   tip.querySelector('.unpack-footer').style.display = 'flex';
   tip.querySelector('.unpack-toggle').textContent = 'Show original';

@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const errorContainer = document.getElementById('error-container');
   const loading = document.getElementById('loading');
   const copyBtn = document.getElementById('copy-btn');
+  const fontDec = document.getElementById('font-dec');
+  const fontInc = document.getElementById('font-inc');
+  let currentFontSize = 15;
 
   simplifyBtn.addEventListener('click', async () => {
     const text = textInput.value.trim();
@@ -52,6 +55,18 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
     });
   });
+
+  // Font controls
+  fontDec.addEventListener('click', () => adjustFontSize(-1));
+  fontInc.addEventListener('click', () => adjustFontSize(1));
+
+  function adjustFontSize(delta) {
+    const newSize = currentFontSize + delta;
+    if (newSize >= 12 && newSize <= 28) { // Strict min 12px
+      currentFontSize = newSize;
+      resultText.style.fontSize = `${currentFontSize}px`;
+    }
+  }
 
   function showResult(text) {
     resultText.textContent = text;
