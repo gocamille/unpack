@@ -74,7 +74,7 @@
 
 .unpack-logo {
   font-weight: 600;
-    font-size: 0.875rem;
+  font-size: 1rem;
     color: var(--upk-foreground);
     letter-spacing: -0.01em;
 }
@@ -89,13 +89,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.75rem;
+    height: 1.75rem;
   border-radius: var(--upk-radius);
   border: 1px solid var(--upk-border);
   background: var(--upk-background);
   color: var(--upk-foreground);
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
@@ -119,8 +119,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  width: 1.5rem;
-    height: 1.5rem;
+  width: 1.75rem;
+    height: 1.75rem;
 }
 
 .unpack-close:hover {
@@ -196,10 +196,10 @@
     align-items: center;
     justify-content: center;
     padding: 0 0.75rem;
-    height: 2rem;
+    height: 2.25rem;
     /* 32px */
     border-radius: calc(var(--upk-radius) - 2px);
-    font-size: 0.825rem;
+    font-size: 0.875rem;
     font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
