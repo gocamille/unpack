@@ -1,10 +1,9 @@
 const express = require('express');
 const cors = require('cors');
-const Anthropic = require('@anthropic-ai/sdk');
-const { SYSTEM_PROMPT, getUserPrompt } = require('./prompt');
+const { generateSimplification } = require('./llm');
 
 const app = express();
-const anthropic = new Anthropic(); // Uses ANTHROPIC_API_KEY env var
+// const anthropic = new Anthropic(); // Moved to llm.js
 
 // Simple in-memory rate limiting (good enough for hackathon)
 const requestCounts = new Map();
@@ -69,29 +68,24 @@ app.post('/simplify', async (req, res) => {
   }
 
   try {
-    const message = await anthropic.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 4096,
-      messages: [
-        {
-          role: 'user',
-          content: getUserPrompt(trimmedText)
-        }
-      ],
-      system: SYSTEM_PROMPT
-    });
+    // Determine provider: use LLM_PROVIDER env var, default to 'anthropic' if not set
+    const provider = process.env.LLM_PROVIDER || 'anthropic';
 
-    const simplified = message.content[0].text;
+    console.log(`Simplifying with provider: ${provider}`);
+
+    const simplified = await generateSimplification(trimmedText, provider);
 
     res.json({
       simplified,
       originalLength: trimmedText.length,
-      simplifiedLength: simplified.length
+      simplifiedLength: simplified.length,
+      provider // Returning provider for debugging/transparency
     });
 
   } catch (error) {
-    console.error('Claude API error:', error);
+    console.error('Simplification error:', error);
 
+    // Basic error categorization
     if (error.status === 429) {
       return res.status(503).json({ error: 'Service busy. Please try again in a moment.' });
     }
