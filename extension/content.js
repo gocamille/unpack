@@ -7,9 +7,12 @@ function createTooltip() {
 
   tooltip = document.createElement('div');
   tooltip.id = 'unpack-tooltip';
+  const iconUrl = chrome.runtime.getURL('icons/noun-box-open-7931605.svg');
   tooltip.innerHTML = `
     <div class="unpack-header">
-      <span class="unpack-logo">📦 Unpack</span>
+      <span class="unpack-logo">
+        <img src="${iconUrl}" class="unpack-logo-icon" alt="Unpack"> Unpack
+      </span>
       <div class="unpack-actions" style="display: flex; gap: 4px; align-items: center;">
         <button class="unpack-font-btn" data-action="dec" aria-label="Decrease font">A-</button>
         <button class="unpack-font-btn" data-action="inc" aria-label="Increase font">A+</button>

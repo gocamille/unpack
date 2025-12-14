@@ -75,8 +75,17 @@
 .unpack-logo {
   font-weight: 600;
   font-size: 1rem;
-    color: var(--upk-foreground);
+  color: var(--upk-foreground);
     letter-spacing: -0.01em;
+  display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .unpack-logo-icon {
+    width: 1rem;
+    height: 1rem;
+    display: block;
 }
 
 .unpack-actions {
