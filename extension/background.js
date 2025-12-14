@@ -1,4 +1,4 @@
-const API_URL = 'https://your-api-domain.com/simplify';
+const API_URL = 'https://railway.com/project/f862a844-a45f-4531-9b0f-e1ea113a0029';
 
 // Create context menu on install
 chrome.runtime.onInstalled.addListener(() => {

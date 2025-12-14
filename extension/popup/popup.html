@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unpack</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+  <div class="popup-container">
+    <header class="popup-header">
+      <h1>📦 Unpack</h1>
+      <p class="tagline">Simplify any text</p>
+    </header>
+
+    <main class="popup-main">
+      <div class="instructions">
+        <p><strong>How to use:</strong></p>
+        <ol>
+          <li>Select text on any webpage</li>
+          <li>Right-click</li>
+          <li>Choose "Unpack this"</li>
+        </ol>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="manual-input">
+        <label for="text-input">Or paste text here:</label>
+        <textarea id="text-input" placeholder="Paste complex text to simplify..."></textarea>
+        <button id="simplify-btn">Simplify</button>
+      </div>
+
+      <div id="result-container" class="result-container" style="display: none;">
+        <div class="result-header">
+          <span>Simplified:</span>
+          <button id="copy-btn" class="copy-btn">Copy</button>
+        </div>
+        <div id="result-text" class="result-text"></div>
+      </div>
+
+      <div id="error-container" class="error-container" style="display: none;"></div>
+      <div id="loading" class="loading" style="display: none;">
+        <div class="spinner"></div>
+        <span>Simplifying...</span>
+      </div>
+    </main>
+
+    <footer class="popup-footer">
+      <a href="https://unpack.app" target="_blank">About Unpack</a>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>
