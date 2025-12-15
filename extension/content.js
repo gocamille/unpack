@@ -7,7 +7,7 @@ function createTooltip() {
 
   tooltip = document.createElement('div');
   tooltip.id = 'unpack-tooltip';
-  const iconUrl = chrome.runtime.getURL('icons/noun-box-open-7931605.svg');
+  const iconUrl = chrome.runtime.getURL('icons/noun-unpacking-sprout-7691555.svg');
   tooltip.innerHTML = `
     <div class="unpack-header">
       <span class="unpack-logo">
