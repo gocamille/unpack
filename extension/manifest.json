@@ -5,6 +5,8 @@
   "description": "Simplify any text on the web with one click",
   "permissions": [
     "contextMenus",
+    "activeTab",
+    "scripting",
     "storage"
   ],
   "host_permissions": [
@@ -13,13 +15,6 @@
   "background": {
     "service_worker": "background.js"
   },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"],
-      "css": ["styles/tooltip.css"]
-    }
-  ],
   "icons": {
     "16": "icons/icon-16.png",
     "48": "icons/icon-48.png",
@@ -35,7 +30,7 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["icons/*.svg"],
+      "resources": ["icons/*.svg", "styles/tooltip.css"],
       "matches": ["<all_urls>"]
     }
   ]

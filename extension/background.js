@@ -15,12 +15,17 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
   const selectedText = info.selectionText;
   if (!selectedText || selectedText.trim().length < 10) {
+    // Inject first, then show error
+    await injectContentScript(tab.id);
     chrome.tabs.sendMessage(tab.id, {
       type: 'UNPACK_ERROR',
       error: 'Please select more text to simplify.'
     });
     return;
   }
+
+  // Inject content script and CSS programmatically (only runs once per tab)
+  await injectContentScript(tab.id);
 
   // Tell content script to show loading state
   chrome.tabs.sendMessage(tab.id, { type: 'UNPACK_LOADING' });
@@ -51,6 +56,25 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     });
   }
 });
+
+// Programmatic injection helper
+async function injectContentScript(tabId) {
+  try {
+    // Inject CSS
+    await chrome.scripting.insertCSS({
+      target: { tabId },
+      files: ['styles/tooltip.css']
+    });
+    // Inject JS
+    await chrome.scripting.executeScript({
+      target: { tabId },
+      files: ['content.js']
+    });
+  } catch (e) {
+    // Script may already be injected, ignore errors
+    console.log('Injection skipped or failed:', e.message);
+  }
+}
 
 // Handle messages from popup
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {

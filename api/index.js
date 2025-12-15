@@ -7,7 +7,7 @@ const app = express();
 
 // Simple in-memory rate limiting (good enough for hackathon)
 const requestCounts = new Map();
-const RATE_LIMIT = 30; // requests per minute per IP
+const RATE_LIMIT = 100; // requests per minute per IP (increased for hackathon)
 const RATE_WINDOW = 60 * 1000; // 1 minute
 
 function rateLimit(req, res, next) {
