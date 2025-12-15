@@ -81,18 +81,34 @@ function positionTooltip() {
 
   const rect = lastSelectionRect;
   const tooltipRect = tooltip.getBoundingClientRect();
+  const viewportHeight = window.innerHeight;
+  const viewportWidth = window.innerWidth;
+  const scrollY = window.scrollY;
+  const scrollX = window.scrollX;
 
-  // Position below selection, centered
+  // Calculate preferred position (bottom center)
   let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
-  let top = rect.bottom + 10 + window.scrollY;
+  let top = rect.bottom + 10 + scrollY;
 
-  // Keep within viewport
-  left = Math.max(10, Math.min(left, window.innerWidth - tooltipRect.width - 10));
+  // Horizontal clamping (keep inside viewport width)
+  // Ensure left is at least 10px from edge, and right edge doesn't overflow
+  left = Math.max(10, Math.min(left, viewportWidth - tooltipRect.width - 10));
 
-  // If would go below viewport, show above selection
-  if (top + tooltipRect.height > window.innerHeight + window.scrollY) {
-    top = rect.top - tooltipRect.height - 10 + window.scrollY;
+  // Vertical positioning strategy
+  // 1. Default: Bottom
+  // 2. If bottom overflows viewport, flip to Top
+  if (top + tooltipRect.height > scrollY + viewportHeight) {
+    top = rect.top - tooltipRect.height - 10 + scrollY;
   }
+
+  // 3. Vertical Clamping (Safety Net)
+  // If top is now above the viewport (e.g., massive tooltip or selection at very top),
+  // force it to stay within the visible area.
+  const minTop = scrollY + 10;
+  const maxTop = scrollY + viewportHeight - tooltipRect.height - 10;
+
+  // Prioritize visibility: if it's too tall, align to top of viewport
+  top = Math.max(minTop, Math.min(top, maxTop));
 
   tooltip.style.left = `${left}px`;
   tooltip.style.top = `${top}px`;
