@@ -43,9 +43,16 @@ app.use(cors({
 app.use(express.json({ limit: '50kb' })); // Limit payload size
 app.use(rateLimit);
 
+const path = require('path');
+
 // Health check
 app.get('/', (req, res) => {
   res.json({ status: 'ok', service: 'unpack-api' });
+});
+
+// Privacy Policy
+app.get('/privacy', (req, res) => {
+  res.sendFile(path.join(__dirname, 'privacy.html'));
 });
 
 // Main simplification endpoint

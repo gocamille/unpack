@@ -5,7 +5,6 @@
   "description": "Simplify any text on the web with one click",
   "permissions": [
     "contextMenus",
-    "activeTab",
     "storage"
   ],
   "host_permissions": [
